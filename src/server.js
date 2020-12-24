@@ -43,6 +43,13 @@ function createRouter() {
             });
         });
 
+    router.delete('/delete-meal', plan.deleteMeal,
+        async (req, res, next) => {
+            res.status(200).json({
+                status: 'ok'
+            });
+        });
+
     return router;
 }
 module.exports = createRouter;

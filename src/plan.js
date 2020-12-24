@@ -18,8 +18,6 @@ function getWeekPlan(req, res, next) {
     let month = parseInt(req.query.month);
     let year = parseInt(req.query.year);
 
-    console.log(req.query);
-
     let queries = [];
     let results = [];
 
@@ -63,7 +61,6 @@ function getWeekPlan(req, res, next) {
         } else {
             results.push({})
         }
-        console.log(results);
         req.weekPlan = results;
         next();
     });
@@ -133,4 +130,24 @@ function removePlan(day, month, year, mealId, res) {
     });
 }
 
-module.exports = { PlanSchema, Plan, getWeekPlan, addMealToDay, removeMealFromPlan };
+function deleteMeal(req, res, next) {
+    let mealId = req.query.meal;
+
+    console.log(mealId);
+
+    Plan.updateMany({}, {$pull: {meals: mealId}}, err => {
+        if (err) {
+            console.log(err);
+            res.status('400').json({status: 'failed-delete-meals'});
+        } else {
+            meals.Meal.deleteOne({_id: mealId}, err => {
+                if (err) {
+                    console.log(err)
+                    res.status('400').json({status: 'failed-delete-meals'});
+                }
+            });
+        }
+    });
+}
+
+module.exports = { PlanSchema, Plan, getWeekPlan, addMealToDay, removeMealFromPlan, deleteMeal };
