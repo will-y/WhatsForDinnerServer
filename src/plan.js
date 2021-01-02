@@ -21,8 +21,12 @@ function getWeekPlan(req, res, next) {
     let queries = [];
     let results = [];
 
+    let date = new Date(year, month, day);
+
+
     for (let i = 0; i < 7; i++) {
-        queries.push(Plan.findOne({day: day + i, month: month, year: year}).populate('meals'));
+        queries.push(Plan.findOne({day: date.getDate(), month: date.getMonth(), year: date.getFullYear()}).populate('meals'));
+        date.setDate(date.getDate() + 1);
     }
 
     Promise.all(queries).then(([day1, day2, day3, day4, day5, day6, day7]) => {
