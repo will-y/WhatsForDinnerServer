@@ -12,7 +12,7 @@ const app = express()
     .use(bodyParser.json())
     .use(server());
 
-mongoose.connect(`mongodb://192.168.86.233:27017/dinner_dev`, {useNewUrlParser: true})
+mongoose.connect(`mongodb://192.168.86.233:27017/dinner`, {useNewUrlParser: true})
     .then(() => {
         console.log('Connected to database');
         app.listen(port, () => {
